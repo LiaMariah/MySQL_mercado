@@ -1,0 +1,48 @@
+
+CREATE DATABASE Mercado;
+USE Mercado;
+
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(14) UNIQUE,
+    telefone VARCHAR(15),
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    estoque INT DEFAULT 0,
+    categoria VARCHAR(50)
+);
+
+CREATE TABLE vendas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fk_cliente_id INT,
+    data_venda TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+CREATE TABLE itens_venda (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fk_venda_id INT NOT NULL,
+    fk_produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (venda_id) REFERENCES vendas(id),
+    FOREIGN KEY (produto_id) REFERENCES produtos(id)
+);
+
+INSERT INTO clientes (nome, cpf, telefone) VALUES 
+('João Silva', '123.456.789-00', '(11) 9999-8888'),
+('Maria Souza', '987.654.321-00', '(11) 7777-6666');
+
+INSERT INTO produtos (nome, preco, estoque, categoria) VALUES 
+('Arroz 5kg', 22.90, 100, 'Alimentos'),
+('Feijão 1kg', 8.50, 150, 'Alimentos'),
+('Sabonete', 2.99, 200, 'Higiene');
+
+SHOW TABLES;
